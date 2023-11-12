@@ -45,8 +45,25 @@ jobs:
                 npm run build --if-present
                 npm test
 
-            - name: Upload artifact for deployment job
-              uses: actions/upload-artifact@v3
-              with:
-                name: node-app
-                path: .
+    test-with-coverage:
+      needs: [lint-check]
+      runs-on: ubuntu-latest
+      steps:
+          - uses: actions/checkout@v4
+
+          - name: Use Node.js
+            uses: actions/setup-node@v3
+            with:
+              node-version: 20
+
+          - name: Install depts
+            run: npm ci
+
+          - name: Build and Test
+            run: npm run test:cov
+
+          - name: Upload test coverage report
+            uses: actions/upload-artifact@v3
+            with:
+              name: app-coverage
+              path: /coverage/
