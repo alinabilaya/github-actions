@@ -1,0 +1,26 @@
+name: gitCheck
+run-name: Runs git check on push
+on: 
+    push:
+        branches:
+            - main
+
+jobs:
+    lint-check:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v4
+            - name: Install depts
+              run: npm ci
+            - name: Lint
+              run: npm run lint
+    test:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/setup-node@v3
+              with:
+                node-version: '14'
+            - run: echo Hello world!
+            - run: npm run build --if-present
+            - run: npm test
