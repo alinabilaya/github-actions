@@ -1,5 +1,5 @@
-name: gitCheck
-run-name: Runs git check on push
+name: generalCheck
+run-name: Runs lint check and tests on push
 on: 
     push:
         branches:
@@ -18,9 +18,13 @@ jobs:
     test:
         runs-on: ubuntu-latest
         steps:
-            - uses: actions/setup-node@v3
+            - name: Checkout
+              uses: actions/checkout@v4
+            - name: Use Node.js
+              uses: actions/setup-node@v3
               with:
-                node-version: '14'
-            - run: echo Hello world!
-            - run: npm run build --if-present
-            - run: npm test
+                node-version: '20.x'
+            - name: Install depts
+              run: npm ci
+            - name: Test
+              run: echo Hello world!; npm test
