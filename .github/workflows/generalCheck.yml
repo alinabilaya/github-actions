@@ -34,4 +34,4 @@ jobs:
             - name: Install depts
               run: npm ci
             - name: Test
-              run: echo Hello world!; npm test
+              run: echo Hello ${{ secrets.TOKEN_USAGE}}}!; npm test
